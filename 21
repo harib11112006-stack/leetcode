@@ -1,0 +1,34 @@
+#include <vector>
+#include <string>
+#include <unordered_set>
+
+class Solution {
+public:
+    std::vector<std::string> findRepeatedDnaSequences(std::string s) {
+        std::vector<std::string> result;
+        // Edge case: string length must be greater than 10 to have a repeating 10-letter sequence
+        if (s.length() < 10) return result;
+
+        std::unordered_set<std::string> seen;
+        std::unordered_set<std::string> repeated;
+
+        // Slide a window of size 10 across the DNA string
+        for (int i = 0; i <= s.length() - 10; i++) {
+            std::string sub = s.substr(i, 10);
+            
+            // If the substring has already been seen, it's a duplicate
+            if (seen.find(sub) != seen.end()) {
+                repeated.insert(sub);
+            } else {
+                seen.insert(sub);
+            }
+        }
+
+        // Move all uniquely identified repeated sequences into the final result vector
+        for (const std::string& seq : repeated) {
+            result.push_back(seq);
+        }
+
+        return result;
+    }
+};
